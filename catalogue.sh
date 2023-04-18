@@ -27,11 +27,11 @@ systemctl daemon-reload
 systemctl enable catalogue
 systemctl start catalogue
 
-echo -e "\e[36m>>>>>>>>>>>Copy mongo repo files<<<<<<<<<<<\e[0m"
+echo -e "\e[36m>>>>>>>>>>>Copy Mongo repo files<<<<<<<<<<<\e[0m"
 cp mongo.repo /etc/yum.repos.d/mongo.repo
 
-echo -e "\e[36m>>>>>>>>>>>Install mongo client<<<<<<<<<<<\e[0m"
+echo -e "\e[36m>>>>>>>>>>>Install Mongo client<<<<<<<<<<<\e[0m"
 yum install mongodb-org-shell -y
 
-echo -e "\e[36m>>>>>>>>>>>Load mongo schema<<<<<<<<<<<\e[0m"
+echo -e "\e[36m>>>>>>>>>>>Load Mongo schema<<<<<<<<<<<\e[0m"
 mongo --host mongodb.sreenivasulareddydevops.online </app/schema/catalogue.js
