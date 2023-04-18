@@ -11,7 +11,7 @@ echo -e "\e[36m>>>>>>>>>>>Download the app content<<<<<<<<<<<\e[0m"
 curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping.zip
 cd /app
 
-echo -e "\e[36m>>>>>>>>>>>CExtract the app content<<<<<<<<<<<\e[0m"
+echo -e "\e[36m>>>>>>>>>>>Extract the app content<<<<<<<<<<<\e[0m"
 unzip /tmp/shipping.zip
 cd /app
 
