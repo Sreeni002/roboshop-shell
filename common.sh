@@ -5,6 +5,7 @@ echo -e "\e[36m>>>>>>>>>>>$1<<<<<<<<<<<\e[0m"
 }
 
 schema_setup(){
+if [ "schema_setup" == "mongo" ]; then
 echo -e "\e[36m>>>>>>>>>>>Copy mongo repo file<<<<<<<<<<<\e[0m"
 cp ${script_path}/mongo.repo /etc/yum.repos.d/mongo.repo
 
@@ -13,6 +14,7 @@ yum install mongodb-org-shell -y
 
 echo -e "\e[36m>>>>>>>>>>>Load schema<<<<<<<<<<<\e[0m"
 mongo --host mongodb-dev.sreenivasulareddydevops.online </app/schema/${component}.js
+fi
 }
 
 func_nodeJs()
