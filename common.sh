@@ -118,3 +118,22 @@ mv target/${component}-1.0.jar ${component}.jar &>>$log_file
 func_status_check $?
 func_system_setup
 }
+
+func_payment() {
+
+Func_print_head "Install Python"
+yum install python36 gcc python3-devel -y &>>$log_file
+func_status_check $?
+
+func_app_prereq
+
+Func_print_head "Install dependencies"
+pip3.6 install -r requirements.txt &>>$log_file
+func_status_check $?
+
+Func_print_head "Update password in system service file"
+sed -i -e "s/rabbitmq_appuser_password|${rabbitmq_appuser_password}|" ${script_path}/payment.service &>>$log_file
+func_status_check $?
+func_system_setup
+
+}
