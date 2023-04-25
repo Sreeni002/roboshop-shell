@@ -33,7 +33,6 @@ mongo --host mongodb-dev.sreenivasulareddydevops.online </app/schema/${component
 func_status_check $?
 fi
 if [ "${schema_setup}" == "mysql" ]; then
-
 Func_print_head "Install Mysql client"
 yum install mysql - &>>$log_file
 func_status_check $?
@@ -46,11 +45,11 @@ fi
 
 func_app_prereq(){
 Func_print_head "Create application user"
-id ${app_user} &>>$log_file
-
+id ${app_user} &>>/tmp/roboshop.log
 if [ $? -ne 0 ]; then
-  useradd ${app_user} &>>$log_file
+  useradd ${app_user} &>>/tmp/roboshop.log
 fi
+func_status_check $?
 
 Func_print_head "Create application directory"
 rm -rf /app &>>$log_file
@@ -60,13 +59,11 @@ func_status_check $?
 
 Func_print_head "Download the app content"
 curl -L -o /tmp/${componet}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>$log_file
-cd /app
 func_status_check $?
 
 Func_print_head "Extract the app content"
+cd /app
 unzip /tmp/${component}.zip &>>$log_file
-func_status_check $?
-
 func_status_check $?
 }
 
@@ -75,16 +72,13 @@ Func_print_head "Setup systemd service"
 cp ${script_path}/${component}.service /etc/systemd/system/${component}.service &>>$log_file
 func_status_check $?
 
-Func_print_head "Start cart service"
+Func_print_head "Start ${component} service"
 systemctl daemon-reload &>>$log_file
 systemctl enable ${component} &>>$log_file
-systemctl start ${component} &>>$log_file
-func_status_check $?
-schema_setup
+systemctl restart ${component} &>>$log_file
 func_status_check $?
 }
-func_nodeJs()
-{
+func_nodeJs(){
 Func_print_head "Configuring nodejs repos"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>$log_file
 func_status_check $?
@@ -101,7 +95,6 @@ func_status_check $?
 
 func_schema_setup
 func_system_setup
-func_status_check $?
 }
 
 func_java(){
@@ -111,11 +104,13 @@ yum install maven -y &>>$log_file
 func_status_check $?
 
 func_app_prereq
+
 Func_print_head "Download Maven dependencies"
 mvn clean package &>>$log_file
 func_status_check $?
 mv target/${component}-1.0.jar ${component}.jar &>>$log_file
-func_status_check $?
+
+func_schema_setup
 func_system_setup
 }
 
@@ -134,6 +129,7 @@ func_status_check $?
 Func_print_head "Update password in system service file"
 sed -i -e "s/rabbitmq_appuser_password|${rabbitmq_appuser_password}|" ${script_path}/payment.service &>>$log_file
 func_status_check $?
+
 func_system_setup
 
 }
