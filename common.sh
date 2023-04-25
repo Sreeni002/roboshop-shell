@@ -89,7 +89,7 @@ func_status_check $?
 
 func_app_prereq
 
-func_print_head "Install nodeJS dependencies"
+Func_print_head "Install nodeJS dependencies"
 npm install &>>$log_file
 func_status_check $?
 
