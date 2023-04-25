@@ -18,7 +18,7 @@ func_status_check() {
     exit 1
   fi
 }
-schema_setup(){
+func_schema_setup(){
 if [ "schema_setup" == "mongo" ]; then
 Func_print_head "Copy mongo repo file"
 cp ${script_path}/mongo.repo /etc/yum.repos.d/mongo.repo &>>$log_file
@@ -34,7 +34,7 @@ func_status_check $?
 fi
 if [ "${schema_setup}" == "mysql" ]; then
 Func_print_head "Install Mysql client"
-yum install mysql - &>>$log_file
+yum install mysql -y &>>$log_file
 func_status_check $?
 
 Func_print_head "Load schema"
@@ -78,7 +78,7 @@ systemctl enable ${component} &>>$log_file
 systemctl restart ${component} &>>$log_file
 func_status_check $?
 }
-func_nodeJs(){
+func_nodeJs() {
 Func_print_head "Configuring nodejs repos"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>$log_file
 func_status_check $?
@@ -97,7 +97,7 @@ func_schema_setup
 func_system_setup
 }
 
-func_java(){
+func_java() {
 
 Func_print_head "Install Maven"
 yum install maven -y &>>$log_file
