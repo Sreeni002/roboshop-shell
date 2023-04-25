@@ -58,7 +58,7 @@ func_status_check $?
 
 
 Func_print_head "Download the app content"
-curl -L -o /tmp/${componet}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>$log_file
+curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>$log_file
 func_status_check $?
 
 Func_print_head "Extract the app content"
